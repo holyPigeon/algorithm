@@ -9,14 +9,9 @@ public class Step5 {
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     String[] str = reader.readLine().split(" ");
-    int x1 = Integer.parseInt(str[0]);
-    int x2 = Integer.parseInt(str[1]);
+    double x1 = Double.parseDouble(str[0]);
+    double x2 = Double.parseDouble(str[1]);
 
-    System.out.println(x1 + x2);
-    System.out.println(x1 - x2);
-    System.out.println(x1 * x2);
     System.out.println(x1 / x2);
-    System.out.println(x1 % x2);
-
   }
 }
