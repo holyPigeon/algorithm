@@ -13,7 +13,7 @@ public class Step7 {
     int y = Integer.parseInt(str[1]);
     int z = Integer.parseInt(str[2]);
 
-    int money = 0;
+    int money;
 
     if ((x == y) && (y == z)) {
       money = 10000 + x * 1000;
@@ -22,7 +22,7 @@ public class Step7 {
         money = 1000 + x * 100;
       } else if (y == z) {
         money = 1000 + y * 100;
-      } else if (z == x) {
+      } else {
         money = 1000 + z * 100;
       }
     } else {
