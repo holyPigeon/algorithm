@@ -12,8 +12,8 @@ public class Step1 {
     int x = Integer.parseInt(str);
 
 
-      for (int i = 1; i <= 9; i++) {
-        System.out.println(x + " * " + i + " = " + x * i);
-      }
+    for (int i = 1; i <= 9; i++) {
+      System.out.println(x + " * " + i + " = " + x * i);
+    }
   }
 }
