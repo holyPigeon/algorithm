@@ -22,9 +22,9 @@ public class Step6 {
 
     for (int j = 0; j < count; j++) {
       if (j == (count - 1)) {
-        bw.write(Integer.toString(sum[j]));
+        bw.write("Case #" + (j + 1) + ": " + sum[j]);
       } else {
-        bw.write(sum[j] + "\n");
+        bw.write("Case #" + (j + 1) + ": " + sum[j] + "\n");
       }
 
     }
