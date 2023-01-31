@@ -26,7 +26,7 @@ public class Step4 {
         if (chess[i][j] == 'B') {
           for (int k = i; k < i + 8; k++) {
             for (int l = j; l < j + 8; l++) {
-              // 알맞게 색칠
+              // 알맞게 색칠.
             }
           }
         }
