@@ -11,26 +11,32 @@ public class Step4 {
     int n = Integer.parseInt(st.nextToken());
     int m = Integer.parseInt(st.nextToken());
 
-    int[][] chess = new int[n][m]; // 0 -> black, 1 -> white
+    int[][] originChess = new int[n][m]; // 0 -> black, 1 -> white
+    int[][] copiedChess = new int[n][m];
     int[][] counts = new int[n - 7][m - 7];
 
     for (int i = 0; i < n; i++) {
       String str = br.readLine();
       for (int j = 0; j < m; j++) {
         if (str.charAt(j) == 'B') { // 문자가 B인 경우 0 대입
-          chess[i][j] = 0;
+          originChess[i][j] = 0;
+          copiedChess[i][j] = 0;
         } else { // 문자가 W인 경우 1 대입
-          chess[i][j] = 1;
+          originChess[i][j] = 1;
+          copiedChess[i][j] = 1;
         }
       }
     }
 
+/*
     for (int i = 0; i < n - 7; i++) {
       for (int j = 0; j < m - 7; j++) {
-        rePaint(chess, counts, i, j);
+        rePaint(copiedChess, counts, i, j);
       }
     }
-    printArray(chess, n, m);
+*/
+    rePaint(copiedChess, counts, 0, 0);
+    printArray(copiedChess, n, m);
   }
 
   public static void printArray(int[][] arr, int n, int m) {
