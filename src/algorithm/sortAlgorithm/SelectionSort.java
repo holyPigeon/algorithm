@@ -14,7 +14,7 @@ public class SelectionSort {
     StringTokenizer st = new StringTokenizer(br.readLine(), " ");
     int length = st.countTokens();
     int[] num = new int[length];
-    int min, temp, index;
+    int temp;
 
     for (int i = 0; i < length; i++) {
       num[i] = Integer.parseInt(st.nextToken());
