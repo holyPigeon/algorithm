@@ -22,15 +22,15 @@ public class SelectionSort {
 
 //    min = num[0];
 
-      for (int i = 0; i < length; i++) {
-        for (int j = i; j < length; j++) {
-          if (num[j] < num[i]) {
-            temp = num[i];
-            num[i] = num[j];
-            num[j] = temp;
-          }
+    for (int i = 0; i < length; i++) {
+      for (int j = i; j < length; j++) {
+        if (num[j] < num[i]) {
+          temp = num[i];
+          num[i] = num[j];
+          num[j] = temp;
         }
       }
+    }
 
     for (int i : num) {
       System.out.println(i + " ");
