@@ -21,6 +21,7 @@ public class SelectionSort {
     }
 
 //    min = num[0];
+    //
 
     for (int i = 0; i < length; i++) {
       for (int j = i; j < length; j++) {
