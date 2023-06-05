@@ -8,10 +8,9 @@ import java.io.OutputStreamWriter;
 
 public class Step6 {
 
-  static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
     int N = Integer.parseInt(br.readLine());
 
@@ -31,6 +30,8 @@ public class Step6 {
 	 */
 
   public static void Hanoi(int N, int start, int mid, int to) throws IOException {
+
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
     // 이동할 원반의 수가 1개라면?
     if (N == 1) {
       bw.write(start + " " + to + "\n");
