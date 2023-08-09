@@ -1,4 +1,4 @@
-package baekjoon.stack;
+package baekjoon.stack_queue_deck;
 
 /*
   - 정해진 규칙에 따라 스택에 수를 저장하고 스택 안의 수들의 합을 구하자.

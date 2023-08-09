@@ -1,4 +1,4 @@
-package baekjoon.stack;
+package baekjoon.stack_queue_deck;
 
 import java.io.*;
 import java.util.Stack;
