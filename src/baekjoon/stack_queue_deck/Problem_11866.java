@@ -1,6 +1,7 @@
 package baekjoon.stack_queue_deck;
 
 import java.io.*;
+import java.sql.Array;
 import java.util.*;
 
 /*
@@ -23,36 +24,36 @@ public class Problem_11866 {
     StringTokenizer st = new StringTokenizer(br.readLine(), " ");
     int n = Integer.parseInt(st.nextToken());
     int k = Integer.parseInt(st.nextToken());
-    int first = 1;
-    Queue<Integer> queue1 = new LinkedList<>();
-    Queue<Integer> queue2 = new LinkedList<>();
-    HashSet<Integer> set = new HashSet<>();
+    int tempSize = n;
+    int last = -1;
+    int resultIndex = (last + k) % tempSize;
+    ArrayList<Integer> list = new ArrayList<>();
+    ArrayList<Integer> result = new ArrayList<>();
 
     for (int i = 1; i <= n; i++) {
-      queue1.offer(i);
+      list.add(i);
     }
 
-    while(true) {
-      for (int i = first; i <= n; i++) {
-        if (set.contains(i)) {
-          continue;
-        }
-        queue2.offer(i);
+    for (int i = 1; i <= n; i++) {
+      result.add(list.get(resultIndex));
+      list.remove(resultIndex);
+      tempSize--;
+      if (i == n) {
+        continue;
       }
-      for (int i = 0; i < 3; i++) {
-        if (i == 2) {
-          Integer x = queue2.poll();
-          first = x;
-          sb.append(first).append(" ");
-          set.add(x);
-        } else {
-          queue2.poll();
-        }
-      }
-      if (queue2.isEmpty()) {
-        break;
-      }
+      last = (resultIndex + tempSize - 1) % tempSize;
+      resultIndex = (last + k) % tempSize;
     }
+
+    // 1 2--- 3- 4 5---- 6-- 7
+    // 1 2 4 5 6 7
+
+    sb.append("<");
+    sb.append(result.get(0));
+    for (int i = 1; i < n; i++) {
+      sb.append(", ").append(result.get(i));
+    }
+    sb.append(">");
 
     bw.write(sb.toString());
     bw.close();
