@@ -21,7 +21,7 @@ public class Problem_2346 {
     StringBuilder sb = new StringBuilder();
 
     int n = Integer.parseInt(br.readLine());
-    int sequence = 1;
+    int moveNum = 0, sequence = 1;
     int index = 0; // 만약 index가 덱의 맨 처음을 가리킨다면 0, 마지막을 가리킨다면 1
     StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
@@ -35,41 +35,19 @@ public class Problem_2346 {
       value.offerLast(Integer.parseInt(st.nextToken()));
     }
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n - 1; i++) {
       if (i == 0) {
-        int x = sequence;
-        Integer pollNum = deque.pollFirst();
-        sequence += value.get(pollNum);
-
-        for (int j = 0; j < pollNum; j++) {
-
-        }
-        value.remove(x);
         sb.append(1).append(" ");
+        moveNum = value.peekFirst();
+        StringTokenizer st2 = new StringTokenizer(move(deque, value, sequence, index, moveNum), " ");
+        sb.append(st2.nextToken()).append(" ");
+        moveNum = Integer.parseInt(st2.nextToken());
+        index = Integer.parseInt(st2.nextToken());
       } else {
-        if (value.get(i) > 0) {
-          for (int j = 0; j < Math.abs(sequence); j++) {
-            if (j == Math.abs(sequence) - 1) {
-              int x = sequence;
-              sequence = value.get(deque.pollFirst());
-              value.remove(x);
-              sb.append(i).append(" ");
-            } else {
-              deque.offerLast(deque.pollFirst());
-            }
-          }
-        } else {
-          for (int j = 0; j < sequence; j++) {
-            if (j == sequence - 1) {
-              int x = sequence;
-              sequence = value.get(deque.pollLast());
-              value.remove(x);
-              sb.append(i).append(" ");
-            } else {
-              deque.offerFirst(deque.pollLast());
-            }
-          }
-        }
+        StringTokenizer st2 = new StringTokenizer(move(deque, value, sequence, index, moveNum), " ");
+        sb.append(st2.nextToken()).append(" ");
+        moveNum = Integer.parseInt(st2.nextToken());
+        index = Integer.parseInt(st2.nextToken());
       }
     }
 
@@ -77,46 +55,62 @@ public class Problem_2346 {
     bw.close();
   }
 
-  static int move(Deque<Integer> deque, Deque<Integer> value, int sequence, int index, int moveNum) {
+  static String move(Deque<Integer> deque, Deque<Integer> value, int sequence, int index, int moveNum) {
 
     if (moveNum > 0) { // 풍선에서 나온 수가 양수일 때
       if (index == 0) { // 인덱스가 덱의 맨 앞에 있을 때
-        int x = sequence;
         deque.pollFirst();
         moveNum = value.pollFirst(); // 풍선에서 나온 수를 저장한다.
-        sequence += moveNum; // 풍선을 터뜨리고 나온 수만큼 이동한다.
 
         for (int i = 0; i < moveNum - 1; i++) { // 풍선에서 나온 수만큼 이동한다.
           deque.offerLast(deque.pollFirst());
           value.offerLast(value.pollFirst());
         }
+        sequence = deque.peekFirst(); // 풍선을 터뜨리고 나온 수만큼 이동한다.
+        index = 0;
 
-        return x;
+        return sequence + " " + moveNum + " " + index;
       } else {
-        int x = sequence;
         deque.pollLast();
         moveNum = value.pollLast(); // 풍선에서 나온 수를 저장한다.
-        sequence += moveNum; // 풍선을 터뜨리고 나온 수만큼 이동한다.
 
         for (int i = 0; i < moveNum - 1; i++) { // 풍선에서 나온 수만큼 이동한다.
+          deque.offerLast(deque.pollFirst());
+          value.offerLast(value.pollFirst());
+        }
+        sequence = deque.peekFirst(); // 풍선을 터뜨리고 나온 수만큼 이동한다.
+        index = 0;
+
+        return sequence + " " + moveNum + " " + index;
+      }
+
+    } else { // 풍선에서 나온 수가 음수일 때
+      if (index == 0) { // 인덱스가 덱의 맨 앞에 있을 때
+        deque.pollFirst();
+        moveNum = value.pollFirst(); // 풍선에서 나온 수를 저장한다.
+
+        for (int i = 0; i < Math.abs(moveNum) - 1; i++) {
           deque.offerFirst(deque.pollLast());
           value.offerFirst(value.pollLast());
         }
+        sequence = deque.peekLast(); // 풍선을 터뜨리고 나온 수만큼 이동한다.
+        index = 1;
 
-        return x;
-      }
-      index = 0;
-    } else {
-      if (index == 0) {
-        int x = sequence;
-        deque.pollFirst();
-        moveNum = value.pollFirst(); // 풍선에서 나온 수를 저장한다.
-        sequence += moveNum; // 풍선을 터뜨리고 나온 수만큼 이동한다.
+        return sequence + " " + moveNum + " " + index;
+      } else { // 인덱스가 덱의 맨 뒤에 있을 때
+        deque.pollLast();
+        moveNum = value.pollLast(); // 풍선에서 나온 수를 저장한다.
 
-        for (int i = 0; i < Math.abs(moveNum) - 1; i++) {
-
+        for (int i = 0; i < Math.abs(moveNum) - 1; i++) { // 풍선에서 나온 수만큼 이동한다.
+          deque.offerFirst(deque.pollLast());
+          value.offerFirst(value.pollLast());
         }
+        sequence = deque.peekLast(); // 풍선을 터뜨리고 나온 수만큼 이동한다.
+        index = 1;
+
+        return sequence + " " + moveNum + " " + index;
       }
+
     }
   }
 }
