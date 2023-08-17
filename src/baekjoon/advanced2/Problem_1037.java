@@ -1,4 +1,4 @@
-package baekjoon.advanced;
+package baekjoon.advanced2;
 
 import java.io.*;
 import java.util.ArrayList;
