@@ -19,12 +19,8 @@ public class Problem_15649 {
         int n = Integer.parseInt(tokens[0]);
         int m = Integer.parseInt(tokens[0]);
 
-        for (int i = 1; i <= n; i++) {
-
-        }
-    }
-
-    public static String findAvailableCases(int currentIndex, int n, int m) {
-
+//        for (int i = 1; i <= n; i++) {
+//
+//        }
     }
 }
