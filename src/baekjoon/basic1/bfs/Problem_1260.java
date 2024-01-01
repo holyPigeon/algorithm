@@ -40,13 +40,20 @@ public class Problem_1260 {
             graph[a].add(b);
             graph[b].add(a);
         }
-        Arrays.stream(graph)
-                .forEach(Collections::sort);
 
         // dfs logic
         for (int i = 0; i < n; i++) {
             dfs(startV);
         }
+
+        // init
+        for (int i = 1; i <= n; i++) {
+            isVisited[i] = false;
+        }
+
+        // bfs logic
+        System.out.println();
+        bfs(startV);
     }
 
     public static void dfs(int v) {
@@ -57,6 +64,24 @@ public class Problem_1260 {
         System.out.print(v + " ");
         for (Integer adjacentV : graph[v]) {
             dfs(adjacentV);
+        }
+    }
+
+    public static void bfs(int v) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(v);
+        isVisited[v] = true;
+        System.out.print(v + " ");
+
+        while (!queue.isEmpty()) {
+            Integer startV = queue.poll();
+            for (Integer adjacentV : graph[startV]) {
+                if (!isVisited[adjacentV]) {
+                    isVisited[adjacentV] = true;
+                    System.out.print(adjacentV + " ");
+                    queue.offer(adjacentV);
+                }
+            }
         }
     }
 }
