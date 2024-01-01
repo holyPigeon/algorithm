@@ -1,4 +1,4 @@
-package baekjoon.basic1.bfs;
+package baekjoon.basic1.dfs_and_bfs;
 
 /*
 theme: 탐색 결과를 각각 dfs, bfs 로 나타내자
