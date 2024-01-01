@@ -40,6 +40,8 @@ public class Problem_1260 {
             graph[a].add(b);
             graph[b].add(a);
         }
+        Arrays.stream(graph)
+                .forEach(Collections::sort);
 
         // dfs logic
         for (int i = 0; i < n; i++) {
