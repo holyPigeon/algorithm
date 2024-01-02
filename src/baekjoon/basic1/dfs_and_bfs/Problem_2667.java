@@ -12,7 +12,7 @@ public class Problem_2667 {
     static int n;
     static int[][] map;
     static boolean[][] isVisited;
-    static int houseCount;
+    static int count = 0;
     static List<Integer> result;
 
     public static void main(String[] args) throws IOException {
@@ -34,23 +34,25 @@ public class Problem_2667 {
         // logic
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                houseCount = 0;
-                if (!isVisited[i][j]) {
+                if (map[i][j] == 1 && !isVisited[i][j]) {
+                    count++;
+                    result.add(0);
                     bfs(i, j);
-                    result.add(houseCount);
                 }
             }
         }
 
         Collections.sort(result);
-        System.out.println(result.size());
+        System.out.println(count);
         result.forEach(System.out::println);
+
     }
 
     public static void bfs(int i, int j) {
         Queue<int[]> queue = new LinkedList<>();
         queue.offer(new int[]{i, j});
         isVisited[i][j] = true;
+        result.set(count - 1, result.get(count - 1) + 1);
 
         while (!queue.isEmpty()) {
             int[] currentIndex = queue.poll();
@@ -59,9 +61,9 @@ public class Problem_2667 {
                 int y = currentIndex[1] + dy[k];
 
                 if (x >= 0 && y >= 0 && x < n && y < n) {
-                    if (!isVisited[x][y]) {
+                    if (map[x][y] == 1 && !isVisited[x][y]) {
                         isVisited[x][y] = true;
-                        houseCount++;
+                        result.set(count - 1, result.get(count - 1) + 1);
                         queue.offer(new int[]{x, y});
                     }
                 }
