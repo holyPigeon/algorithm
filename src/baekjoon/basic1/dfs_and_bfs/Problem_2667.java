@@ -21,5 +21,51 @@ public class Problem_2667 {
         map = new int[n][n];
         isVisited = new boolean[n][n];
         result = new ArrayList<>();
+
+        // init
+        for (int i = 0; i < n; i++) {
+            String line = br.readLine();
+            for (int j = 0; j < n; j++) {
+                map[i][j] = Integer.parseInt(line.substring(j, j + 1));
+                isVisited[i][j] = false;
+            }
+        }
+
+        // logic
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                houseCount = 0;
+                if (!isVisited[i][j]) {
+                    bfs(i, j);
+                    result.add(houseCount);
+                }
+            }
+        }
+
+        Collections.sort(result);
+        System.out.println(result.size());
+        result.forEach(System.out::println);
+    }
+
+    public static void bfs(int i, int j) {
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{i, j});
+        isVisited[i][j] = true;
+
+        while (!queue.isEmpty()) {
+            int[] currentIndex = queue.poll();
+            for (int k = 0; k < 4; k++) {
+                int x = currentIndex[0] + dx[k];
+                int y = currentIndex[1] + dy[k];
+
+                if (x >= 0 && y >= 0 && x < n && y < n) {
+                    if (!isVisited[x][y]) {
+                        isVisited[x][y] = true;
+                        houseCount++;
+                        queue.offer(new int[]{x, y});
+                    }
+                }
+            }
+        }
     }
 }
