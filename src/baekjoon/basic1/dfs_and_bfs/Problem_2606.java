@@ -15,5 +15,38 @@ public class Problem_2606 {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int n = Integer.parseInt(br.readLine());
+        int m = Integer.parseInt(br.readLine());
+        graph = new List[n + 1];
+        isVisited = new boolean[n + 1];
+
+        // init
+        for (int i = 1; i <= n; i++) {
+            graph[i] = new ArrayList<>();
+            isVisited[i] = false;
+        }
+        for (int i = 1; i <= m; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            graph[a].add(b);
+            graph[b].add(a);
+        }
+
+        // logic
+        dfs(1);
+
+        System.out.println(result);
+    }
+
+    public static void dfs(int v) {
+        isVisited[v] = true;
+        for (Integer adjacentV : graph[v]) {
+            if (!isVisited[adjacentV]) {
+                result++;
+                dfs(adjacentV);
+            }
+        }
     }
 }
