@@ -18,29 +18,29 @@ theme: 내린 비의 높이가 1~100일 때, 모든 케이스르 아울러 최�
 public class Problem_2468 {
 
     static int n;
-    static int[] dx = {1, -1, 0, 0};
-    static int[] dy = {0, 0, 1, -1};
+    static int[] dx = {1, 0, -1, 0};
+    static int[] dy = {0, -1, 0, 1};
     static int[][] map;
     static boolean[][] isVisited;
-    static List<Integer> result;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         n = Integer.parseInt(br.readLine());
         map = new int[n][n];
-        result = new ArrayList<>();
 
         // init
+        int maxHeight = 0;
         for (int i = 0; i < n; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine(), " ");
             for (int j = 0; j < n; j++) {
                 map[i][j] = Integer.parseInt(st.nextToken());
+                maxHeight = Math.max(maxHeight, map[i][j]);
             }
         }
 
         // logic
         int max = 0;
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= maxHeight; i++) {
             int count = 0;
             isVisited = new boolean[n][n];
             for (int j = 0; j < n; j++) {
@@ -75,6 +75,20 @@ public class Problem_2468 {
                         queue.offer(new int[]{x, y});
                     }
                 }
+            }
+        }
+    }
+
+    private static void dfs(int x, int y, int height) {
+        isVisited[x][y] = true;
+        for(int i=0; i<4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+
+            if(nx < 0 || ny < 0 || nx > n - 1 || ny > n - 1) continue;
+            if(isVisited[nx][ny]) continue;
+            if(map[nx][ny]> height) {
+                dfs(nx,ny, height);
             }
         }
     }
