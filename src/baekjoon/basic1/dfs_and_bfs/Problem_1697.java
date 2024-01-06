@@ -32,8 +32,7 @@ import java.util.StringTokenizer;
 public class Problem_1697 {
 
     static int n, k;
-    static int time = 0;
-    static int[] shortestTime = new int[100_001];
+    static int[] shortestTime;
     static boolean[] isVisited;
 
     public static void main(String[] args) throws IOException {
@@ -42,71 +41,29 @@ public class Problem_1697 {
         StringTokenizer st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         k = Integer.parseInt(st.nextToken());
-        isVisited = new boolean[k + 1];
+        isVisited = new boolean[100_001];
+        shortestTime = new int[100_001];
 
         // logic
-        for (int i = n; i <= k; i++) {
-            if (!isVisited[i]) {
-                dfs(i);
-            }
-        }
+        bfs(n);
 
-        System.out.println(time);
+        System.out.println(shortestTime[k]);
     }
 
-    private static void dfs(int n) {
-        if (isVisited[n]) {
-            return;
-        }
+    private static void bfs(int n) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(n);
         isVisited[n] = true;
-        time++;
-        int nextNumber1 = 2 * n; // 순간이동
-        int nextNumber2 = n + 1; // 걷기 + 1
-        int nextNumber3 = n - 1; // 걷기 - 1
-        int[] nextNumber = new int[]{nextNumber1, nextNumber2, nextNumber3};
 
-        for (int i = 0; i < 3; i++) {
-            if (nextNumber[i] < 0 || nextNumber[i] > 100_000) {
-                continue;
-            }
-            if (!isVisited[nextNumber[i]]) {
-                dfs(nextNumber[i]);
-            }
-        }
-
-    }
-
-    private static void solution(int n, int k) {
-        if (k - n > 0) { // 동생이 수빈보다 뒤
-            if (n == 0) {
-                if (k == 0) {
-                    System.out.println(0);
-                    return;
+        while (!queue.isEmpty()) {
+            Integer poll = queue.poll();
+            int[] nextNumbers = new int[]{2 * poll, poll + 1, poll - 1};
+            for (int i = 0; i < 3; i++) {
+                if (nextNumbers[i] >= 0 && nextNumbers[i] <= 100_000 && !isVisited[nextNumbers[i]]) {
+                    isVisited[nextNumbers[i]] = true;
+                    queue.offer(nextNumbers[i]);
+                    shortestTime[nextNumbers[i]] = shortestTime[poll] + 1; // 도달한 숫자까지의 최단시간 기록
                 }
-                n++;
-                time++;
-            }
-            while (n * 2 < k) { // 최대한 동생에게 가까워지도록 순간이동한다.
-                n *= 2;
-                time++;
-            }
-            if (2 * n - k < k - n) { // 동생보다 뒤로 간다음 -1씩 앞으로 간다. 2 * n - k < k - n
-                n *= 2;
-                time++;
-                while (n != k) {
-                    n--;
-                    time++;
-                }
-            } else if (2 * n - k >= k - n) { // 동생보다 앞에서 +1씩 뒤로 간다.
-                while (n != k) {
-                    n++;
-                    time++;
-                }
-            }
-        } else { // 동생이 수빈보다 앞
-            while (n != k) {
-                n--;
-                time++;
             }
         }
     }
