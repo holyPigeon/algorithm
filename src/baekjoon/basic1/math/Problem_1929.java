@@ -13,21 +13,25 @@ public class Problem_1929 {
         int m = Integer.parseInt(st.nextToken());
         int n = Integer.parseInt(st.nextToken());
 
+        // init
         int[] primeNumbers = new int[n + 1];
-        for (int i = m; i <= n; i++) {
-            if (primeNumbers[i] == -1) {
+        for (int i = 0; i < primeNumbers.length; i++) {
+            primeNumbers[i] = i;
+        }
+
+        // logic
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (primeNumbers[i] == 0) {
                 continue;
             }
-            primeNumbers[i] = m;
-            for (int j = m; j <= n; j++) {
-                if ((primeNumbers[j] % primeNumbers[i] == 0) && primeNumbers[j] != primeNumbers[i]) {
-                    primeNumbers[j] = -1;
-                }
+            primeNumbers[i] = i;
+            for (int j = i + i; j <= n; j = j + i) {
+                    primeNumbers[j] = 0;
             }
         }
 
         for (int i = m; i < primeNumbers.length; i++) {
-            if (primeNumbers[i] != -1) {
+            if (primeNumbers[i] != 0) {
                 System.out.println(primeNumbers[i]);
             }
         }
