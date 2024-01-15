@@ -49,7 +49,6 @@ public class Problem_1976 {
         } else {
             System.out.println("NO");
         }
-
     }
 
     private static void union(int x, int y) {
