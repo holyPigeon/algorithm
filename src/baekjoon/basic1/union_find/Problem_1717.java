@@ -38,4 +38,27 @@ public class Problem_1717 {
             }
         }
     }
+
+    private static void union(int x, int y) {
+        int a = findRoot(x);
+        int b = findRoot(y);
+        if(a != b) {
+            array[b] = a;
+        }
+    }
+
+    private static String find(int a, int b) {
+        if (findRoot(a) == findRoot(b)) {
+            return "YES";
+        }
+        return "No";
+    }
+
+    private static int findRoot(int a) {
+        if (array[a] == a) {
+            return a;
+        } else {
+            return array[a] = findRoot(array[a]); // 배열의 해당 인덱스값을 루트 노드로 바꾼다.
+        }
+    }
 }
