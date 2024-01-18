@@ -3,9 +3,7 @@ package baekjoon.basic1.graph;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Problem_1987 {
 
@@ -13,10 +11,10 @@ public class Problem_1987 {
     static int[] dy = new int[]{0, 0, 1, -1};
     static int r, c;
     static char[][] map;
+    static int[][] distance;
     static boolean[][] isVisited;
     static Set<Character> visitedSquare;
-    static int count = 1;
-    static int max = 1;
+    static int count;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -25,6 +23,7 @@ public class Problem_1987 {
         r = Integer.parseInt(st.nextToken());
         c = Integer.parseInt(st.nextToken());
         map = new char[r][c];
+        distance = new int[r][c];
         isVisited = new boolean[r][c];
         visitedSquare = new HashSet<>();
 
@@ -38,7 +37,26 @@ public class Problem_1987 {
 
         // logic
         visitedSquare.add(map[0][0]);
-        dfs(0, 0);
+        distance[0][0] = 1;
+        List<Integer> distances = new ArrayList<>();
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (!visitedSquare.contains(map[i][j])) {
+                    count = 0;
+                    dfs(0, 0);
+                }
+            }
+        }
+
+        // result
+        int max = 1;
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (distance[i][j] > max) {
+                    max = distance[i][j];
+                }
+            }
+        }
 
         System.out.println(max);
     }
@@ -54,7 +72,6 @@ public class Problem_1987 {
      */
 
     private static void dfs(int i, int j) {
-        int returnStack = 0;
 
         for (int k = 0; k < 4; k++) {
             int x = i + dx[k];
@@ -74,4 +91,33 @@ public class Problem_1987 {
 
 
     }
+
+    // 아이디어 1: 방문한 곳을 차레대로 1, 2, 3... 이렇게 채운다. 결론적으로 distance 배열 상에서 가장
+
+    /*private static void bfs(int i, int j) {
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{i, j});
+        visitedSquare.add(map[i][j]);
+
+        while(!queue.isEmpty()) {
+            int[] poll = queue.poll();
+            int oldX = poll[0];
+            int oldY = poll[1];
+
+            for (int k = 0; k < 4; k++) {
+                int x = oldX + dx[k];
+                int y = oldY + dy[k];
+
+                if (x >= 0 && y >= 0 && x < r && y < c) {
+                    if (!visitedSquare.contains(map[x][y])) {
+                        visitedSquare.add(map[x][y]);
+                        if (distance[x][y] < distance[oldX][oldY] + 1) {
+                            distance[x][y] = distance[oldX][oldY] + 1;
+                        }
+                        queue.offer(new int[]{x, y});
+                    }
+                }
+            }
+        }
+    }*/
 }
