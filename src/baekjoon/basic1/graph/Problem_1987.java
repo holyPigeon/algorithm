@@ -36,17 +36,9 @@ public class Problem_1987 {
         }
 
         // logic
-        visitedSquare.add(map[0][0]);
         distance[0][0] = 1;
         List<Integer> distances = new ArrayList<>();
-        for (int i = 0; i < r; i++) {
-            for (int j = 0; j < c; j++) {
-                if (!visitedSquare.contains(map[i][j])) {
-                    count = 0;
-                    dfs(0, 0);
-                }
-            }
-        }
+        dfs(0, 0);
 
         // result
         int max = 1;
@@ -72,6 +64,7 @@ public class Problem_1987 {
      */
 
     private static void dfs(int i, int j) {
+        visitedSquare.add(map[i][j]);
 
         for (int k = 0; k < 4; k++) {
             int x = i + dx[k];
