@@ -3,9 +3,7 @@ package baekjoon.gold.dfs_and_bfs;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /*
 theme: 육지로 갈 수 있는 곳 중에서 가장 멀리 떨어진 땅 간의 최단 거리를 구하자.
@@ -22,8 +20,12 @@ public class Problem_2589 {
     static int[] dx = {0, 0, 1, -1};
     static int[] dy=  {1, -1, 0, 0};
     static char[][] map;
+    static int[][] dp;
     static boolean[][] isVisited;
+    static List<Integer> maxDistances;
     static int answer;
+    static int max;
+    static int distance;
     static int h;
     static int w;
 
@@ -34,7 +36,9 @@ public class Problem_2589 {
         h = Integer.parseInt(st.nextToken());
         w = Integer.parseInt(st.nextToken());
         map = new char[h][w];
+        dp = new int[h][w];
         isVisited = new boolean[h][w];
+        maxDistances = new ArrayList<>();
 
         // init
         for (int i = 0; i < h; i++) {
@@ -45,11 +49,14 @@ public class Problem_2589 {
         }
 
         // logic
+        max = 0;
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
                 if (map[i][j] == 'L') {
                     isVisited = new boolean[h][w];
-                    dfs(i, j, 0);
+                    dp = new int[h][w];
+                    bfs(i, j);
+                    answer = Math.max(answer, max);
                 }
             }
         }
@@ -57,25 +64,49 @@ public class Problem_2589 {
         System.out.println(answer);
     }
 
-    private static void dfs(int i, int j, int distance) {
-        if (isVisited[i][j] || map[i][j] == 'W') { // 이미 방문했거나 방문하려는 곳이 바다일 때
-            answer = Math.max(answer, distance);
-            return;
-        }
+//    private static void dfs(int i, int j, int distance) {
+//        if (isVisited[i][j] || map[i][j] == 'W') { // 이미 방문했거나 방문하려는 곳이 바다일 때
+//            answer = Math.max(answer, distance);
+//            return;
+//        }
+//        isVisited[i][j] = true;
+//
+//        for (int k = 0; k < 4; k++) {
+//            int cx = i + dx[k];
+//            int cy = j + dy[k];
+//
+//            if (cx >= 0 && cy >= 0 && cx < h && cy < w) {
+//                if (!isVisited[cx][cy] && map[cx][cy] == 'L') {
+//                    dfs(cx, cy, distance + 1);
+//                    answer = Math.max(answer, distance);
+//                }
+//            }
+//        }
+//        isVisited[i][j] = false;
+//
+//    }
+
+    private static void bfs(int i, int j) {
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{i, j});
         isVisited[i][j] = true;
 
-        for (int k = 0; k < 4; k++) {
-            int cx = i + dx[k];
-            int cy = j + dy[k];
+        while(!queue.isEmpty()) {
+            int[] poll = queue.poll();
 
-            if (cx >= 0 && cy >= 0 && cx < h && cy < w) {
-                if (!isVisited[cx][cy] && map[cx][cy] == 'L') {
-                    dfs(cx, cy, distance + 1);
-                    answer = Math.max(answer, distance);
+            for (int k = 0; k < 4; k++) {
+                int cx = poll[0] + dx[k];
+                int cy = poll[1] + dy[k];
+
+                if (cx >= 0 && cy >= 0 && cx < h && cy < w) {
+                    if (!isVisited[cx][cy] && map[cx][cy] == 'L') {
+                        isVisited[cx][cy] = true;
+                        dp[cx][cy] = dp[poll[0]][poll[1]] + 1;
+                        max = Math.max(max, dp[cx][cy]);
+                        queue.offer(new int[]{cx, cy});
+                    }
                 }
             }
         }
-        isVisited[i][j] = false;
-
     }
 }
