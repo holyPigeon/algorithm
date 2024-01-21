@@ -99,12 +99,10 @@ public class Problem_2583 {
                 int cx = poll[0] + dx[k];
                 int cy = poll[1] + dy[k];
 
-                if (cx >= 0 && cy >= 0 && cx < M && cy < N) {
-                    if (!isVisited[cx][cy] && map[cx][cy] == 0) {
+                if (cx >= 0 && cy >= 0 && cx < M && cy < N && (!isVisited[cx][cy] && map[cx][cy] == 0)) {
                         isVisited[cx][cy] = true;
                         area++;
                         queue.offer(new int[]{cx, cy});
-                    }
                 }
             }
         }
