@@ -8,6 +8,19 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
+/*
+- theme: 토마토가 모두 익을 때까지의 걸리는 시간을 구하자.
+
+- 3차원 공간에 토마토들이 있다. 이 3차원 공간을 순회하면서 익은 + 아직 방문하지 않은 토마토가 있는 곳부터 bfs를 돌린다.
+- 3차원 공간에서 인접한 토마토들이 익으므로 동서남북 + 상하 총 6개의 방향으로 탐색을 한다. 한 번에 익을 수 있는 최대한의 토마토는 6개다.
+    - 이에 따라 6번 도는 for문이 끝났을 때 time을 올릴 수 있다.
+
+- 문제점: 인접 토마토들이 익는 시간의 기준을 어떻게 잡아야 하는지 모르겠다. 처음에는 6개 방향만 조사하면 되지만, 이후 큐에 추가된
+좌표들 * 6개의 방향 이런 식으로 점점 조사할 게 늘어난다. 몇 개 간격으로 시간이 1 흘렀다고 체크해야 할 지 모르겠다.
+
+- 해결 방법을 찾은 듯? poll 해서 뽑은 애 + 1을 해버리면 상관없지 않나
+ */
+
 public class Problem_7569 {
 
     static int[] dx = {0, 0, 1, -1, 0, 0}; // 동 서 남 북 상 하
@@ -19,6 +32,7 @@ public class Problem_7569 {
     static int[][][] map;
     static int[][][] dp;
     static boolean[][][] isVisited;
+    static int time = 1;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -43,26 +57,42 @@ public class Problem_7569 {
         }
 
         // logic
-        int possibleCount = 0;
+        int zeroCount = 0;
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < n; j++) {
                 for (int k = 0; k < m; k++) {
-                    if (map[i][j][k] == 1) {
-                        if (!isVisited[i][j][k]) {
-                            bfs(i, j, k);
-                            possibleCount++;
-                        }
+                    if (map[i][j][k] == 0) {
+                        zeroCount++;
+                    }
+                    if (map[i][j][k] == 1 && (!isVisited[i][j][k])) {
+                        bfs(i, j, k);
                     }
                 }
             }
         }
 
-        Arrays.sort(dp[h-1][n-1]);
+        Arrays.sort(dp[h - 1][n - 1]);
 
-        if (possibleCount > 1) {
+        if (zeroCount == 0) {
+            System.out.println(0);
+            return;
+        }
+
+        zeroCount = 0;
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < m; k++) {
+                    if (map[i][j][k] == 0) {
+                        zeroCount++;
+                    }
+                }
+            }
+        }
+
+        if (zeroCount > 0) {
             System.out.println(-1);
         } else {
-            System.out.println(dp[h-1][n-1][m-1]);
+            System.out.println(dp[h - 1][n - 1][m - 1] + 1);
         }
     }
 
@@ -82,9 +112,10 @@ public class Problem_7569 {
                 int cz = z + dz[i];
 
                 if (cx >= 0 && cy >= 0 && cz >= 0 && cx < m && cy < n && cz < h) {
-                    if (!isVisited[cz][cy][cx] && map[cz][cy][cx] == 0) {
+                    if (!isVisited[cz][cy][cx] && (map[cz][cy][cx] == 0 || map[cz][cy][cx] == 1)) {
                         isVisited[cz][cy][cx] = true;
-                        dp[cz][cy][cx] = dp[q][w][e] + 1;
+                        map[cz][cy][cx] = 1;
+                        dp[cz][cy][cx] = dp[z][y][x] + 1; // 인접한 곳 중에서 아직 방문 X + 토마토가 있는 곳으로 탐색 후 익게 함
                         queue.offer(new int[]{cz, cy, cx});
                     }
                 }
