@@ -57,43 +57,38 @@ public class Problem_7569 {
         }
 
         // logic
-        int zeroCount = 0;
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < n; j++) {
                 for (int k = 0; k < m; k++) {
-                    if (map[i][j][k] == 0) {
-                        zeroCount++;
-                    }
                     if (map[i][j][k] == 1 && (!isVisited[i][j][k])) {
+                        dp[i][j][k] = 1;
                         bfs(i, j, k);
                     }
                 }
             }
         }
 
-        Arrays.sort(dp[h - 1][n - 1]);
-
-        if (zeroCount == 0) {
-            System.out.println(0);
-            return;
-        }
-
-        zeroCount = 0;
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < n; j++) {
                 for (int k = 0; k < m; k++) {
                     if (map[i][j][k] == 0) {
-                        zeroCount++;
+                        System.out.println(-1);
+                        return;
                     }
                 }
             }
         }
 
-        if (zeroCount > 0) {
-            System.out.println(-1);
-        } else {
-            System.out.println(dp[h - 1][n - 1][m - 1] + 1);
+        int max = 0;
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < m; k++) {
+                    max = Math.max(dp[i][j][k], max);
+                }
+            }
         }
+
+        System.out.println(max - 1);
     }
 
     private static void bfs(int q, int w, int e) {
@@ -112,7 +107,7 @@ public class Problem_7569 {
                 int cz = z + dz[i];
 
                 if (cx >= 0 && cy >= 0 && cz >= 0 && cx < m && cy < n && cz < h) {
-                    if (!isVisited[cz][cy][cx] && (map[cz][cy][cx] == 0 || map[cz][cy][cx] == 1)) {
+                    if (!isVisited[cz][cy][cx] && map[cz][cy][cx] == 0) {
                         isVisited[cz][cy][cx] = true;
                         map[cz][cy][cx] = 1;
                         dp[cz][cy][cx] = dp[z][y][x] + 1; // 인접한 곳 중에서 아직 방문 X + 토마토가 있는 곳으로 탐색 후 익게 함
