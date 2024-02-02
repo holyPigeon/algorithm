@@ -3,7 +3,6 @@ package baekjoon.gold.dfs_and_bfs;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -30,9 +29,7 @@ public class Problem_7569 {
     static int n;
     static int h;
     static int[][][] map;
-    static int[][][] dp;
-    static boolean[][][] isVisited;
-    static int time = 1;
+    static Queue<int[]> queue = new LinkedList<>();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -43,8 +40,6 @@ public class Problem_7569 {
         h = Integer.parseInt(st.nextToken());
 
         map = new int[h][n][m];
-        isVisited = new boolean[h][n][m];
-        dp = new int[h][n][m];
 
         // init
         for (int i = 0; i < h; i++) {
@@ -60,14 +55,16 @@ public class Problem_7569 {
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < n; j++) {
                 for (int k = 0; k < m; k++) {
-                    if (map[i][j][k] == 1 && (!isVisited[i][j][k])) {
-                        dp[i][j][k] = 1;
-                        bfs(i, j, k);
+                    if (map[i][j][k] == 1) {
+                        queue.offer(new int[]{i, j, k});
                     }
                 }
             }
         }
 
+        bfs();
+
+        int max = Integer.MIN_VALUE;
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < n; j++) {
                 for (int k = 0; k < m; k++) {
@@ -75,26 +72,19 @@ public class Problem_7569 {
                         System.out.println(-1);
                         return;
                     }
+                    max = Math.max(map[i][j][k], max);
                 }
             }
         }
 
-        int max = 0;
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < n; j++) {
-                for (int k = 0; k < m; k++) {
-                    max = Math.max(dp[i][j][k], max);
-                }
-            }
+        if (max == 1) {
+            System.out.println(0);
+        } else {
+            System.out.println(max - 1);
         }
-
-        System.out.println(max - 1);
     }
 
-    private static void bfs(int q, int w, int e) {
-        Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[]{q, w, e});
-
+    private static void bfs() {
         while (!queue.isEmpty()) {
             int[] poll = queue.poll();
             int z = poll[0];
@@ -107,10 +97,8 @@ public class Problem_7569 {
                 int cz = z + dz[i];
 
                 if (cx >= 0 && cy >= 0 && cz >= 0 && cx < m && cy < n && cz < h) {
-                    if (!isVisited[cz][cy][cx] && map[cz][cy][cx] == 0) {
-                        isVisited[cz][cy][cx] = true;
-                        map[cz][cy][cx] = 1;
-                        dp[cz][cy][cx] = dp[z][y][x] + 1; // 인접한 곳 중에서 아직 방문 X + 토마토가 있는 곳으로 탐색 후 익게 함
+                    if (map[cz][cy][cx] == 0) {
+                        map[cz][cy][cx] = map[z][y][x] + 1; // 인접한 곳 중에서 아직 방문 X + 토마토가 있는 곳으로 탐색 후 익게 함
                         queue.offer(new int[]{cz, cy, cx});
                     }
                 }
