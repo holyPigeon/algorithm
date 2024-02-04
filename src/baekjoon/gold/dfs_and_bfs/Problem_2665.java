@@ -3,8 +3,8 @@ package baekjoon.gold.dfs_and_bfs;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /*
 theme: 시작방에서 끝방으로 가야되는데, 중간에 장애물로 검은 방들로 길이 막혀있다.
@@ -24,68 +24,89 @@ public class Problem_2665 {
     static int[] dy = {1, 0, -1, 0};
     static int n;
     static int[][] map;
-    static boolean[][] isVisited;
-    static int minBreakCount;
+    static int[][] dp;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         n = Integer.parseInt(br.readLine());
         map = new int[n][n];
-        isVisited = new boolean[n][n];
+        dp = new int[n][n];
 
         // init
         for (int i = 0; i < n; i++) {
             String line = br.readLine();
             for (int j = 0; j < n; j++) {
                 map[i][j] = line.charAt(j) - 48;
-                if (map[i][j] == 0) {
-                    minBreakCount++;
-                }
             }
         }
 
-        dfs(0, 0, 0);
+        bfs();
 
-        System.out.println(minBreakCount);
+        System.out.println(dp[n - 1][n - 1]);
     }
 
-    private static void dfs(int i, int j, int breakCount) {
-        if (breakCount > minBreakCount) { // 이미 부순 벽이 ㅈㄴ 많아서 가망이 없다면 돌아오기
-            return;
-        }
-        if (i == n - 1 && j == n - 1) { // 끝방에 도달했다면 부순 벽의 개수 체크 및 최솟값 갱신
-            minBreakCount = Math.min(minBreakCount, breakCount);
-            return;
-        }
+//    private static void dfs(int i, int j, int breakCount) {
+//        if (breakCount > minBreakCount) { // 이미 부순 벽이 ㅈㄴ 많아서 가망이 없다면 돌아오기
+//            return;
+//        }
+//        if (i == n - 1 && j == n - 1) { // 끝방에 도달했다면 부순 벽의 개수 체크 및 최솟값 갱신
+//            minBreakCount = Math.min(minBreakCount, breakCount);
+//            return;
+//        }
+//
+//        isVisited[i][j] = true;
+//        List<int[]> unAvailableRoute = new ArrayList<>();
+//
+//        // 갈 수 있는 길을 미리 조사한다.
+//        for (int k = 0; k < 4; k++) {
+//            int ci = i + dy[k];
+//            int cj = j + dx[k];
+//
+//            // 갈 수 있는 길을 미리 조사한다.
+//            if (isAvailablePoint(ci, cj)) {
+//                if (map[ci][cj] == 1) { // 갈 수 있는 길을 추가
+//                    dfs(ci, cj, breakCount);
+//                } else if (map[ci][cj] == 0) { // 갈 수 없는 길을 추가
+//                    unAvailableRoute.add(new int[]{ci, cj});
+//                }
+//            }
+//        }
+//
+//        // 정 갈 길이 없으면 벽을 뚫는다.
+//        for (int[] point : unAvailableRoute) {
+//            dfs(point[0], point[1], ++breakCount);
+//        }
+//
+//        isVisited[i][j] = false;
+//    }
 
-        isVisited[i][j] = true;
-        List<int[]> unAvailableRoute = new ArrayList<>();
+    private static void bfs() {
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{0, 0});
+        dp[0][0] = 0;
 
-        // 갈 수 있는 길을 미리 조사한다.
-        for (int k = 0; k < 4; k++) {
-            int ci = i + dy[k];
-            int cj = j + dx[k];
+        while (!queue.isEmpty()) {
+            int[] poll = queue.poll();
+            int i = poll[0];
+            int j = poll[1];
 
-            // 갈 수 있는 길을 미리 조사한다.
-            if (isAvailablePoint(ci, cj)) {
-                if (map[ci][cj] == 1) { // 갈 수 있는 길을 추가
-                    dfs(ci, cj, breakCount);
-                } else if (map[ci][cj] == 0) { // 갈 수 없는 길을 추가
-                    unAvailableRoute.add(new int[]{ci, cj});
+            for (int k = 0; k < 4; k++) {
+                int ci = i + dy[k];
+                int cj = j + dx[k];
+
+                if (isAvailablePoint(ci, cj) && (dp[ci][cj] > dp[i][j])) {
+                    if (map[ci][cj] == 0) {
+                        dp[ci][cj] = dp[i][j] + 1;
+                    }
+                } else {
+                    dp[ci][cj] = dp[i][j];
                 }
             }
         }
-
-        // 정 갈 길이 없으면 벽을 뚫는다.
-        for (int[] point : unAvailableRoute) {
-            dfs(point[0], point[1], ++breakCount);
-        }
-
-        isVisited[i][j] = false;
     }
 
     private static boolean isAvailablePoint(int ci, int cj) {
-        return (ci >= 0 && cj >= 0 && ci < n && cj < n) && !isVisited[ci][cj];
+        return (ci >= 0 && cj >= 0 && ci < n && cj < n);
     }
 }
