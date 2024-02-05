@@ -37,7 +37,8 @@ public class Problem_2665 {
         for (int i = 0; i < n; i++) {
             String line = br.readLine();
             for (int j = 0; j < n; j++) {
-                map[i][j] = line.charAt(j) - 48;
+                map[i][j] = line.charAt(j) - '0';
+                dp[i][j] = Integer.MAX_VALUE;
             }
         }
 
@@ -95,12 +96,18 @@ public class Problem_2665 {
                 int ci = i + dy[k];
                 int cj = j + dx[k];
 
+                // 원래는 dp 배열 자체가 모두 Integer.MAX_VALUE 로 차있었으나
+                // 맨 처음 dp[0][0] -> 1을 시작으로 가는 곳마다 벽이라면 이전 값 + 1, 벽이 아니면 이전 값으로 채워지기 시작한다.
+                // 따라서 dp[ci][cj] > dp[i][j] 조건은 두 가지를 뜻한다.
+                    // 처음 방문하는 곳일 경우, 모두 MAX_VALUE 이기 때문에 통과한다.
+                    // 두번째 방문하는 곳일 경우, 뚫은 벽의 개수가 더 많다면 -> 비효율적이라면 더 효율적인 개수로 바꿔준다.
                 if (isAvailablePoint(ci, cj) && (dp[ci][cj] > dp[i][j])) {
                     if (map[ci][cj] == 0) {
                         dp[ci][cj] = dp[i][j] + 1;
+                    } else {
+                        dp[ci][cj] = dp[i][j];
                     }
-                } else {
-                    dp[ci][cj] = dp[i][j];
+                    queue.add(new int[]{ci, cj});
                 }
             }
         }
