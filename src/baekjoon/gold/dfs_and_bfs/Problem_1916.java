@@ -44,7 +44,6 @@ public class Problem_1916 {
             int v = Integer.parseInt(st.nextToken());
 
             graph[start].add(new Node(end, v));
-            graph[end].add(new Node(start, v));
         }
         StringTokenizer st2 = new StringTokenizer(br.readLine());
         int start = Integer.parseInt(st2.nextToken());
