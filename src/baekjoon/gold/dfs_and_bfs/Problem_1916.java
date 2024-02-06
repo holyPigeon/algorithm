@@ -65,24 +65,24 @@ public class Problem_1916 {
             Node minimumNode = new Node(0, Integer.MAX_VALUE);
             for (Node node : graph[x]) { // 해당 노드에서 갈 수 있는 노드를 고르기
                 if (!isVisited[node.e]) {
+//                    dist[node.e] = dist[x] + node.v;
                     if (node.v < minimumNode.v) {
                         minimumNode = node;
                     }
 
-//                    if (dist[node.e] == 0) { // 아직 방문하지 않은 노드라면 -> 갱신해준다.
-//                        dist[node.e] = dist[x] + node.v;
-//                        isVisited[start] = true;
-//                    }
-//                    if (dist[node.e] > dist[x] + node.v) { // 만약 기존 비용보다 새로운 비용이 더 싸다면 -> 갱신해준다.
-//                        dist[node.e] = dist[x] + node.v;
-//                        isVisited[start] = true;
-//                    }
+                    if (dist[node.e] == 0) { // 아직 방문하지 않은 노드라면 -> 갱신해준다.
+                        dist[node.e] = dist[x] + node.v;
+                        isVisited[start] = true;
+                    }
+                    if (dist[node.e] > dist[x] + node.v) { // 만약 기존 비용보다 새로운 비용이 더 싸다면 -> 갱신해준다.
+                        dist[node.e] = dist[x] + node.v;
+                        isVisited[start] = true;
+                    }
                 }
             }
             if (minimumNode.e == 0) {
                 break;
             }
-            dist[minimumNode.e] = dist[x] + minimumNode.v;
             queue.add(minimumNode.e);
             isVisited[minimumNode.e] = true;
         }
