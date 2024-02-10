@@ -3,7 +3,6 @@ package baekjoon.gold.dfs_and_bfs;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 import java.util.Queue;
@@ -25,11 +24,10 @@ public class Problem_2636 {
     static int[] dx = {0, 0, 1, -1};
     static int[] dy = {1, -1, 0, 0};
     static int[][] map;
+    static int[][] lastMap;
     static boolean[][] isVisited;
-    static boolean[][] isEdge;
     static int m;
     static int n;
-    static int count;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -38,8 +36,8 @@ public class Problem_2636 {
         m = Integer.parseInt(st.nextToken());
         n = Integer.parseInt(st.nextToken());
         map = new int[m][n];
+        lastMap = new int[m][n];
         isVisited = new boolean[m][n];
-        isEdge = new boolean[m][n];
 
         for (int i = 0; i < m; i++) {
             StringTokenizer st2 = new StringTokenizer(br.readLine());
@@ -49,35 +47,23 @@ public class Problem_2636 {
         }
 
         boolean isEmpty = false;
+        int time = 0;
         while (!isEmpty) {
+
             /*
-            - 구멍 파악하기
-            첫 번째 조사 때 바깥쪽 공기들을 모두 방문 처리함
-            두 번째 조사부터 치즈 안의 구멍 정보를 조사 후 저장 -> 구멍일 경우 2로 저장
+            - 이전 map의 모습 보존
              */
-            count = 1;
             for (int i = 0; i < m; i++) {
                 for (int j = 0; j < n; j++) {
-                    if (map[i][j] == 0 && !isVisited[i][j]) {
-                        bfsWithFindingHole(i, j);
-                        count++;
-                    }
+                    lastMap[i][j] = map[i][j];
                 }
             }
 
             /*
             - 외부 치즈 녹이기
-            구멍이 아닌 원소와 맞닿아 있는 치즈들을 전부 1에서 0으로 바꾼다.
+            구멍이 아닌 원소와 맞닿아 있는 치즈들을 전부 1에서 -1로 바꾼다.
              */
-            isVisited = new boolean[m][n];
-            for (int i = 0; i < m; i++) {
-                for (int j = 0; j < n; j++) {
-                    if (map[i][j] == 1 && !isVisited[i][j]) {
-                        bfsWithMeltingCheese(i, j);
-                        isVisited[i][j] = true;
-                    }
-                }
-            }
+            bfs(0, 0);
 
             /*
             - -1 상태의 치즈 녹이기
@@ -88,10 +74,9 @@ public class Problem_2636 {
                     if (map[i][j] == -1) {
                         map[i][j] = 0;
                     }
-                    System.out.printf("%2d ", map[i][j]);
                 }
-                System.out.println();
             }
+            isVisited = new boolean[m][n];
 
             /*
             - 모두 비었는지 체크
@@ -104,42 +89,24 @@ public class Problem_2636 {
                     }
                 }
             }
-            System.out.println();
+            time++;
         }
 
-
-    }
-
-    private static void bfsWithFindingHole(int i, int j) {
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(new Node(i, j));
-        isVisited[i][j] = true;
-
-        while (!queue.isEmpty()) {
-            Node poll = queue.poll();
-
-            for (int k = 0; k < 4; k++) {
-                int ci = poll.i + dx[k];
-                int cj = poll.j + dy[k];
-
-                if (ci >= 0 && cj >= 0 && ci < m && cj < n && !isVisited[ci][cj]) {
-                    if (map[ci][cj] == 0) {
-                        if (count >= 2) {
-                            map[poll.i][poll.j] = 2;
-                            map[ci][cj] = 2;
-                        }
-                        isVisited[ci][cj] = true;
-                        queue.add(new Node(ci, cj));
-                    }
-                    if (map[ci][cj] == 2 && count == 1) {
-                        map[ci][cj] = 0;
-                    }
+        int count = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (lastMap[i][j] == 1) {
+                    count++;
                 }
             }
         }
+
+        System.out.println(time);
+        System.out.println(count);
+
     }
 
-    private static void bfsWithMeltingCheese(int i, int j) {
+    private static void bfs(int i, int j) {
         Queue<Node> queue = new LinkedList<>();
         queue.add(new Node(i, j));
         isVisited[i][j] = true;
@@ -152,9 +119,11 @@ public class Problem_2636 {
                 int cj = poll.j + dy[k];
 
                 if (ci >= 0 && cj >= 0 && ci < m && cj < n && !isVisited[ci][cj]) {
-                    if (map[ci][cj] == 0 && map[poll.i][poll.j] == 1) { // 주변에 공기가 있다면 -1로 바꾼다 -> -1은 공기로 바뀌기 전의 상태
-                        map[poll.i][poll.j] = -1;
-                        isVisited[poll.i][poll.j] = true;
+                    if (map[ci][cj] == 1 && map[poll.i][poll.j] == 0) { // 공기와 맞닿은 치즈들을 1에서 -1로 바꾼다.
+                        map[ci][cj] = -1;
+                    }
+                    if (map[ci][cj] == 0) { // 옆에 공기들로 이동, 이동한 곳은 방문 처리
+                        isVisited[ci][cj] = true;
                         queue.add(new Node(ci, cj));
                     }
                 }
