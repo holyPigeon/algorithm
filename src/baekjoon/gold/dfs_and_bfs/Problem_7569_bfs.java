@@ -20,7 +20,7 @@ import java.util.StringTokenizer;
 - 해결 방법을 찾은 듯? poll 해서 뽑은 애 + 1을 해버리면 상관없지 않나
  */
 
-public class Problem_7569 {
+public class Problem_7569_bfs {
 
     static int[] dx = {0, 0, 1, -1, 0, 0}; // 동 서 남 북 상 하
     static int[] dy = {1, -1, 0, 0, 0, 0};

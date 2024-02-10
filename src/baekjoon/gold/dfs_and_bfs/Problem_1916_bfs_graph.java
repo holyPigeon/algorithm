@@ -13,7 +13,7 @@ import java.util.*;
 - 가능한 곳으로 가고(좌표 조건과 유사) 더 효율적인 곳으로(특정 조건 필요) 가야 한다.
  */
 
-public class Problem_1916 {
+public class Problem_1916_bfs_graph {
 
     static List<Node>[] graph;
     static boolean[] isVisited;

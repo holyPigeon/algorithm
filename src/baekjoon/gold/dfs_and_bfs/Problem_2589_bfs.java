@@ -15,7 +15,7 @@ theme: 육지로 갈 수 있는 곳 중에서 가장 멀리 떨어진 땅 간의
     - 해당 과정을 통해 나온 최솟값이
  */
 
-public class Problem_2589 {
+public class Problem_2589_bfs {
 
     static int[] dx = {0, 0, 1, -1};
     static int[] dy=  {1, -1, 0, 0};

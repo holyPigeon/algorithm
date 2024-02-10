@@ -19,7 +19,7 @@ trouble shooting
 - 치즈에 구멍이 있는지 조사하는 방법 -> BFS 를 통해 0인 부분만 방문하면서 조사해봤는데 끊긴다면 구멍으로 간주
  */
 
-public class Problem_2636 {
+public class Problem_2636_bfs {
 
     static int[] dx = {0, 0, 1, -1};
     static int[] dy = {1, -1, 0, 0};

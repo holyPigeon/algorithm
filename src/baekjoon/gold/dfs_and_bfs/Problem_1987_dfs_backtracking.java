@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class Problem_1987 {
+public class Problem_1987_dfs_backtracking {
 
     static int[] dx = new int[]{1, -1, 0, 0};
     static int[] dy = new int[]{0, 0, 1, -1};
