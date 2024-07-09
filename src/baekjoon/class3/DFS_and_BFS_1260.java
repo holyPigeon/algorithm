@@ -44,11 +44,12 @@ public class DFS_and_BFS_1260 {
         }
 
         // init
-        for (int i = 0; i < n; i++) {
+        for (int i = 1; i <= n; i++) {
             isVisited[i] = false;
         }
 
         // bfs
+        System.out.println();
         bfs(startV);
     }
 
@@ -67,13 +68,14 @@ public class DFS_and_BFS_1260 {
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(v);
         isVisited[v] = true;
+        System.out.print(v + " ");
 
         while(!queue.isEmpty()) {
             Integer currentV = queue.poll();
             for (Integer adjacentV : graph[currentV]) {
                 if (!isVisited[adjacentV]) {
                     isVisited[adjacentV] = true;
-                    System.out.println(adjacentV + " ");
+                    System.out.print(adjacentV + " ");
                     queue.offer(adjacentV);
                 }
             }
