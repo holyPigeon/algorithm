@@ -49,7 +49,7 @@ public class DFS_and_BFS_1260 {
         }
 
         // bfs
-
+        bfs(startV);
     }
 
     public static void dfs(int v) {
