@@ -34,13 +34,9 @@ public class Problem_4949_Stack_S4_Retry {
                 if (!isMatchedBracket(ch, stack.pop())) { // [)
                     return false;
                 }
-                // 이상적인 경우는 스택 안에 짝이 맞는 괄호가 존재
-                // 그 외의 경우는 모두 반례
-                // 1. 스택이 그냥 비어있다
-                // 2. 스택이 비어있진 않은데 짝이 맞는 괄호가 아니다
             }
         }
-        if (!stack.isEmpty()) {
+        if (!stack.isEmpty()) { // (
             return false;
         }
 
