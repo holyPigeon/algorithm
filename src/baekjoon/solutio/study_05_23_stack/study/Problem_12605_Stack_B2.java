@@ -1,39 +1,27 @@
-package baekjoon.solutio.study_05_23.practice;
+package baekjoon.solutio.study_05_23_stack.study;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
-/**
- * 단어들을 반대 순서로 뒤집어라 -> 나중에 들어온 애들이 먼저 나온다 -> LIFO
- *
- */
-
-public class Problem_12605_Stack_B5 {
+public class Problem_12605_Stack_B2 {
     public static void main(String[] args) throws IOException {
-
-        // read
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         int N = Integer.parseInt(br.readLine());
 
         for (int i = 0; i < N; i++) {
-            Stack<String> stack = new Stack<>();
-
+            Stack<String> words = new Stack<>();
             StringTokenizer st = new StringTokenizer(br.readLine());
 
-            while(st.hasMoreTokens()) {
-                stack.push(st.nextToken());
-                System.out.println(st.countTokens());
+            while (st.hasMoreTokens()) {
+                words.push(st.nextToken());
             }
 
             System.out.print("Case #" + (i + 1) + ": ");
-            while (!stack.isEmpty()) {
-                System.out.print(stack.pop() + " ");
+            while(!words.isEmpty()) {
+                System.out.print(words.pop() + " ");
             }
             System.out.println();
         }

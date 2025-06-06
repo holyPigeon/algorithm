@@ -1,4 +1,4 @@
-package baekjoon.solutio.study_05_30.study;
+package baekjoon.solutio.study_05_30_queue.study;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,6 +8,7 @@ import java.util.*;
 public class Problem_26043_Queue_S4 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         int N = Integer.parseInt(br.readLine());
         Queue<int[]> queue = new LinkedList<>();
 
@@ -53,14 +54,17 @@ public class Problem_26043_Queue_S4 {
     }
 
     private static void printStudents(List<Integer> students) {
+        StringBuilder sb = new StringBuilder();
+
         if (students.isEmpty()) {
-            System.out.print("None");
+            sb.append("None");
         } else {
             Collections.sort(students);
             for (Integer i : students) {
-                System.out.print(i + " ");
+                sb.append(i).append(" ");
             }
         }
-        System.out.println();
+        sb.append("\n");
+        System.out.print(sb);
     }
 }

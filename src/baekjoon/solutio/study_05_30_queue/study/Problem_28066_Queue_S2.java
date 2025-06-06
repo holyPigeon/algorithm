@@ -1,4 +1,4 @@
-package baekjoon.solutio.study_05_30.study;
+package baekjoon.solutio.study_05_30_queue.study;
 
 import java.io.BufferedReader;
 import java.io.IOException;
