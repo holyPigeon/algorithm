@@ -27,7 +27,7 @@ public class DFS_and_BFS_1260 {
             graph[i] = new ArrayList<>();
         }
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < m; i++) {
             StringTokenizer st2 = new StringTokenizer(br.readLine(), " ");
             int a = Integer.parseInt(st2.nextToken());
             int b = Integer.parseInt(st2.nextToken());
