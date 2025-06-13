@@ -1,4 +1,4 @@
-package baekjoon.solutio.home_practice_06_04_two_pointer.practice;
+package baekjoon.solutio.home_practice.date_06_04_two_pointer;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package baekjoon.solutio.study_05_23_stack.practice;
+package baekjoon.solutio.study.date_05_23_stack.practice;
 
 import java.io.BufferedReader;
 import java.io.IOException;
