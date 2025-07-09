@@ -30,7 +30,5 @@ public class Problem_1920_S4_HashMap {
                 System.out.println(0);
             }
         }
-
-
     }
 }
