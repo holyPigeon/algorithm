@@ -29,11 +29,8 @@ public class Problem_2630_S2_Recursion {
     }
 
     private static void divide(int[][] arr, int x, int y, int N) {
-        int firstNumber = arr[x][y];
-        boolean divide = false;
-        int dividedN = N / 2;
-        if (N == 1) {
-            if (firstNumber == 0) {
+        if (isColorSame(arr, x, y, N)) {
+            if (arr[x][y] == 0) {
                 whiteCount++;
             } else {
                 blueCount++;
@@ -41,28 +38,23 @@ public class Problem_2630_S2_Recursion {
             return;
         }
 
+        int newN = N / 2;
+
+        divide(arr, x, y , newN);
+        divide(arr, x + newN, y , newN);
+        divide(arr, x, y + newN , newN);
+        divide(arr, x + newN, y + newN, newN);
+    }
+
+    private static boolean isColorSame(int[][] arr, int x, int y, int N) {
         for (int i = x; i < x + N; i++) {
-            for (int j = y + 1; j < y + N; j++) {
-                if (arr[i][j] != firstNumber) {
-                    divide = true;
-                    break;
+            for (int j = y; j < y + N; j++) {
+                if (arr[i][j] != arr[x][y]) {
+                    return false;
                 }
             }
         }
 
-        if (divide) {
-            divide(arr, x, y , dividedN);
-            divide(arr, x + dividedN, y , dividedN);
-            divide(arr, x, y + dividedN , dividedN);
-            divide(arr, x + dividedN, y + dividedN, dividedN);
-        } else {
-            if (firstNumber == 0) {
-                whiteCount++;
-            } else {
-                blueCount++;
-            }
-        }
+        return true;
     }
-
-    private static
 }
